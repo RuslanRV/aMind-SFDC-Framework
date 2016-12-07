@@ -3,12 +3,12 @@
     <apiVersion>36.0</apiVersion>
     <packageVersions>
         <majorNumber>9</majorNumber>
-        <minorNumber>56</minorNumber>
+        <minorNumber>60</minorNumber>
         <namespace>Apttus_CPQApi</namespace>
     </packageVersions>
     <packageVersions>
         <majorNumber>8</majorNumber>
-        <minorNumber>128</minorNumber>
+        <minorNumber>135</minorNumber>
         <namespace>Apttus_Proposal</namespace>
     </packageVersions>
     <status>Active</status>
