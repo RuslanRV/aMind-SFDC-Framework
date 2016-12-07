@@ -1,3 +1,0 @@
-<apex:page >
-  <h1>{!$Api.Session_ID}</h1>
-</apex:page>
