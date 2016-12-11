@@ -1,4 +1,4 @@
-public class HWApplicationFactory{
+public class APTS_ApplicationFactory{
 	
 	/**
 	 * Simple Service Factory implementaiton
@@ -35,12 +35,12 @@ public class HWApplicationFactory{
 			m_objectTypes = objectTypes.clone();
 		}
 
-		public HWIServiceUnitOfWork newInstance(){
-			return new HWServiceUnitOfWork(m_objectTypes);
+		public APTS_IServiceUnitOfWork newInstance(){
+			return new APTS_ServiceUnitOfWork(m_objectTypes);
 		}
 
-		public HWIServiceUnitOfWork newInstance(List<SObjectType> objectTypes){
-			return new HWServiceUnitOfWork(objectTypes);
+		public APTS_IServiceUnitOfWork newInstance(List<SObjectType> objectTypes){
+			return new APTS_ServiceUnitOfWork(objectTypes);
 		}
 	}
 
@@ -48,20 +48,20 @@ public class HWApplicationFactory{
 	 * Class implements a Domain class factory
 	 **/
 	public class DomainFactory{
-		private HWApplicationFactory.SelectorFactory m_selectorFactory;
+		private APTS_ApplicationFactory.SelectorFactory m_selectorFactory;
 		private Map<SObjectType, Type> m_sObjectByDomainConstructorType;
 
-		public DomainFactory(HWApplicationFactory.SelectorFactory selectorFactory,	Map<SObjectType, Type> sObjectByDomainConstructorType){
+		public DomainFactory(APTS_ApplicationFactory.SelectorFactory selectorFactory,	Map<SObjectType, Type> sObjectByDomainConstructorType){
 			m_selectorFactory = selectorFactory;
 			m_sObjectByDomainConstructorType = sObjectByDomainConstructorType;
 		}			
 
-		public HWISObjectDomain newInstance(Set<Id> recordIds){
+		public APTS_ISObjectDomain newInstance(Set<Id> recordIds){
 			return newInstance(m_selectorFactory.selectById(recordIds));
 
 		}	
 
-		public HWISObjectDomain newInstance(List<SObject> records){
+		public APTS_ISObjectDomain newInstance(List<SObject> records){
 			SObjectType domainSObjectType = records.getSObjectType();
 			if(domainSObjectType == null){
 				throw new DeveloperException('Unable to determine SObjectType');
