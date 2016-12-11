@@ -1,4 +1,4 @@
-public class HWLineItemServiceImpl implements HWILineItemService{
+public class APTS_LineItemServiceImpl implements APTS_ILineItemService{
 
 	public List<Apttus_Config2__LineItem__c> lineItemsOfCart(final ID cartId) {
 

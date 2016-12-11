@@ -1,4 +1,4 @@
-public interface HWISObjectDomain{
+public interface APTS_ISObjectDomain{
     /**
      * Returns the SObjectType this Domain class represents
      **/	

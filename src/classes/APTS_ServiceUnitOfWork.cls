@@ -1,4 +1,4 @@
-public virtual class HWServiceUnitOfWork implements HWIServiceUnitOfWork{
+public virtual class APTS_ServiceUnitOfWork implements APTS_IServiceUnitOfWork{
 
 	private List<Schema.SObjectType> m_sObjectTypes = new List<Schema.SObjectType>();	
 	private Map<String, List<SObject>> m_newListByType = new Map<String, List<SObject>>();	
@@ -38,11 +38,11 @@ public virtual class HWServiceUnitOfWork implements HWIServiceUnitOfWork{
 	 *
 	 * @param sObjectList A list of objects given in dependency order (least dependent first)
 	 */
-	public HWServiceUnitOfWork(List<Schema.SObjectType> sObjectTypes){
+	public APTS_ServiceUnitOfWork(List<Schema.SObjectType> sObjectTypes){
 		this(sObjectTypes, new SimpleDML());
 	}
 
-	public HWServiceUnitOfWork(List<Schema.SObjectType> sObjectTypes, IDML dml){
+	public APTS_ServiceUnitOfWork(List<Schema.SObjectType> sObjectTypes, IDML dml){
 		m_sObjectTypes = sObjectTypes.clone();
 			
 		for(Schema.SObjectType sObjectType : m_sObjectTypes){

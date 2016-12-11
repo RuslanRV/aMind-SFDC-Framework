@@ -74,11 +74,11 @@ public class APTS_ApplicationFactory{
 			}
 
 			// Construct Domain class passing in the queried records
-			HWSObjectDomain.IConstructable domainConstructor = (HWSObjectDomain.IConstructable) domainConstructorClass.newInstance();		
-			return (HWISObjectDomain) domainConstructor.construct(records);
+			APTS_SObjectDomain.IConstructable domainConstructor = (APTS_SObjectDomain.IConstructable) domainConstructorClass.newInstance();		
+			return (APTS_ISObjectDomain) domainConstructor.construct(records);
 		}	
 
-		public HWISObjectDomain newInstance(List<SObject> records, SObjectType domainSObjectType){
+		public APTS_ISObjectDomain newInstance(List<SObject> records, SObjectType domainSObjectType){
 			if(domainSObjectType == null){
 				throw new DeveloperException('Must specify sObjectType');
 			}
@@ -90,8 +90,8 @@ public class APTS_ApplicationFactory{
 			}
 
 			// Construct Domain class passing in the queried records
-			HWSObjectDomain.IConstructable2 domainConstructor = (HWSObjectDomain.IConstructable2) domainConstructorClass.newInstance();
-			return (HWISObjectDomain) domainConstructor.construct(records, domainSObjectType);
+			APTS_SObjectDomain.IConstructable2 domainConstructor = (APTS_SObjectDomain.IConstructable2) domainConstructorClass.newInstance();
+			return (APTS_ISObjectDomain) domainConstructor.construct(records, domainSObjectType);
 		}
 	}
 
@@ -106,7 +106,7 @@ public class APTS_ApplicationFactory{
 			m_sObjectBySelectorType = sObjectBySelectorType;	
 		}
 
-		public HWISObjectSelector newInstance(SObjectType sObjectType){			
+		public APTS_ISObjectSelector newInstance(SObjectType sObjectType){			
 			// Determine Apex class for Selector class			
 			Type selectorClass = m_sObjectBySelectorType.get(sObjectType);
 			if(selectorClass == null){
@@ -114,7 +114,7 @@ public class APTS_ApplicationFactory{
 			}
 
 			// Construct Selector class and query by Id for the records
-			return (HWISObjectSelector) selectorClass.newInstance();			
+			return (APTS_ISObjectSelector) selectorClass.newInstance();			
 		}
 	
 		public List<SObject> selectById(Set<Id> recordIds){

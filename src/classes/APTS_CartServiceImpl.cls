@@ -1,8 +1,8 @@
-public class HWCartServiceImpl implements HWICartService{
+public class APTS_CartServiceImpl implements APTS_ICartService{
 
 	public ID addProductToCartWith(final ID priceListId, final Integer quantity, final Id productId, final String quoteNumber){
 
-		final HWIServiceUnitOfWork uow = HWApplication.UnitOfWork.newInstance();
+		final APTS_IServiceUnitOfWork uow = APTS_Application.UnitOfWork.newInstance();
 		final CartWork cw = new CartWork(priceListId, quantity, productId, quoteNumber);
 		final MultiProductsWork ppw = new MultiProductsWork(cw);
 		
@@ -16,7 +16,7 @@ public class HWCartServiceImpl implements HWICartService{
 		return cw.ccrDO.cartId;
 	}
 
-	private class CartWork implements HWServiceUnitOfWork.IDoWork{
+	private class CartWork implements APTS_ServiceUnitOfWork.IDoWork{
 				
 		final ID priceListId;
 		final Integer quantity;
@@ -56,14 +56,14 @@ public class HWCartServiceImpl implements HWICartService{
 				}
 
 				if(this.ccrDO == null || this.ccrDO.cartId == null){
-					throw new HWDebugInstrumentation.CustomException('Could not create a cart');
+					throw new APTS_DebugInstrumentation.CustomException('Could not create a cart');
 				}
 			}
 		}
 	}
 
 
-	private class MultiProductsWork implements HWServiceUnitOfWork.IDoWork{
+	private class MultiProductsWork implements APTS_ServiceUnitOfWork.IDoWork{
 				
 		final CartWork cw;
 		public Apttus_CPQApi.CPQ.AddMultiProductResponseDO amprDO { get; set; }
@@ -79,7 +79,7 @@ public class HWCartServiceImpl implements HWICartService{
 			this.amprDO = Apttus_CPQApi.CPQWebService.addMultiProducts(request);
 	
 			if(this.amprDO == null){
-				throw new HWDebugInstrumentation.CustomException('Could not add a product to the cart');
+				throw new APTS_DebugInstrumentation.CustomException('Could not add a product to the cart');
 			}
 		}
 	}

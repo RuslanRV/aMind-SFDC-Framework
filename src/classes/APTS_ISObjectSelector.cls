@@ -1,4 +1,4 @@
-public interface HWISObjectSelector{
+public interface APTS_ISObjectSelector{
 	/**
 	 * Provides the SObjectType for the object the given Selector is providing query logic for
 	 **/

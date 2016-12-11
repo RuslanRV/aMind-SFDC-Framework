@@ -1,7 +1,7 @@
 /**
 * @description This class leverages the Config custom metadata type to return configuration options for the application.
 */
-public class HWConfigService {
+public class APTS_ConfigService {
 	/** Licensed User state value for testing */
 	@TestVisible private static Boolean testLicensedUser = true;
 	/** DebugInfoRecipientEmails value for testing */
@@ -17,11 +17,11 @@ public class HWConfigService {
 	/** Organization Name value for testing */
 	@TestVisible private static String testOrgName;
 	/** Packaged Apex Class Name */
-	private static final String PACKAGED_CLASS_NAME = 'HWConfigService';
+	private static final String PACKAGED_CLASS_NAME = 'APTS_ConfigService';
 	/** Obfuscated Body Text */
 	private static final String OBFUSCATED_BODY_TEXT = '(hidden)';
 	/** Author */
-	private static final String AUTHOR_NAME = 'aMinds Solutions, LLC';
+	private static final String AUTHOR_NAME = 'Ruslan Vekua';
 	/** Packaged Apex Class */
 	private static final List<ApexClass> PACKAGED_CLASS = Database.query('SELECT Name, Body, NameSpacePrefix FROM ApexClass WHERE Name = \'' + PACKAGED_CLASS_NAME + '\' LIMIT 1');
 
@@ -116,8 +116,8 @@ public class HWConfigService {
 	*/
 	private static void buildSchemaMaps() {
 		
-		HWConfigService.keyPrefixByObject = new Map<String, String>();
-		HWConfigService.objectByKeyPrefix = new Map<String, String>();
+		APTS_ConfigService.keyPrefixByObject = new Map<String, String>();
+		APTS_ConfigService.objectByKeyPrefix = new Map<String, String>();
 		
 		// Determine key prefix by object (and vice versa) mappings
 		Map<String, Schema.SObjectType> gd = Schema.getGlobalDescribe();
@@ -126,8 +126,8 @@ public class HWConfigService {
 	        final Schema.DescribeSObjectResult sObjResult =  gd.get(sObj).getDescribe(); 
 	        // Some objects (such as history objects) may return null key prefix
 	        if (sObjResult.getKeyPrefix() != null){
-	        	HWConfigService.keyPrefixByObject.put(sObjResult.getKeyPrefix(), sObjResult.getName().toLowerCase());
-	        	HWConfigService.objectByKeyPrefix.put(sObjResult.getName().toLowerCase(), sObjResult.getKeyPrefix());		        
+	        	APTS_ConfigService.keyPrefixByObject.put(sObjResult.getKeyPrefix(), sObjResult.getName().toLowerCase());
+	        	APTS_ConfigService.objectByKeyPrefix.put(sObjResult.getName().toLowerCase(), sObjResult.getKeyPrefix());		        
 	        }
 	    }
 	}
@@ -150,7 +150,7 @@ public class HWConfigService {
 	*/
 	private class Config {
 		/** Default Config Settings XXX */
-		private RVConfig__mdt defaultSettings = Test.isRunningTest() ? null : [SELECT debugInfoRecipientEmails__c, emailDebugInfoLog__c, enableLogging__c, maxDebugInfoAge__c, maxDebugInfoRecords__c FROM RVConfig__mdt WHERE DeveloperName = 'Default'];
+		private APTS_Config__mdt defaultSettings = Test.isRunningTest() ? null : [SELECT debugInfoRecipientEmails__c, emailDebugInfoLog__c, enableLogging__c, maxDebugInfoAge__c, maxDebugInfoRecords__c FROM APTS_Config__mdt WHERE DeveloperName = 'Default'];
 		/** Namespace Prefix */
 		private String appNamespacePrefix;
 		/** Namespace */

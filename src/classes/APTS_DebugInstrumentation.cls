@@ -1,7 +1,7 @@
 /**
 * @description This class implements logging for the application
 */
-public class HWDebugInstrumentation {
+public class APTS_DebugInstrumentation {
 
 	public class CustomException extends Exception{
 
@@ -59,7 +59,7 @@ public class HWDebugInstrumentation {
 	*/
 	public static void debug(final String debugString){
 		
-		if(!HWConfigService.loggingEnabled) return;
+		if(!APTS_ConfigService.loggingEnabled) return;
 		
 		if(debugLog == null){
 			debugLog = new List<DebugEntry>();
@@ -88,13 +88,13 @@ public class HWDebugInstrumentation {
 		}		
 		exceptionTrace += ' |\n ';
 		
-		if(HWConfigService.loggingEnabled){
+		if(APTS_ConfigService.loggingEnabled){
 			try {
-				HWDMLManager.insertAsSystem(dbg);
+				APTS_DMLManager.insertAsSystem(dbg);
 			}catch(Exception e){
 				// Unable to insert debug info
 			}
-			if (HWConfigService.debugInfoMaxNum != null || HWConfigService.debugInfoMaxAge != null){
+			if (APTS_ConfigService.debugInfoMaxNum != null || APTS_ConfigService.debugInfoMaxAge != null){
 				checkDebugInfoLog();
 			}
 		}
@@ -121,13 +121,13 @@ public class HWDebugInstrumentation {
 		}		
 		exceptionTrace += ' |\n ';
 		
-		if(HWConfigService.loggingEnabled){
+		if(APTS_ConfigService.loggingEnabled){
 			try {
-				HWDMLManager.insertAsSystem(dbg);
+				APTS_DMLManager.insertAsSystem(dbg);
 			}catch(Exception e){
 				// Unable to insert debug info
 			}
-			if (HWConfigService.debugInfoMaxNum != null || HWConfigService.debugInfoMaxAge != null){
+			if (APTS_ConfigService.debugInfoMaxNum != null || APTS_ConfigService.debugInfoMaxAge != null){
 				checkDebugInfoLog();
 			}
 		}
@@ -192,12 +192,12 @@ public class HWDebugInstrumentation {
 	*/
 	private static void checkDebugInfoLog(){
 		final List<DebugInfo__c> debugInfoLog = [SELECT Id, Name, CreatedDate, DebugData__c, DebugMessage__c, DebugErrorCode__c FROM DebugInfo__c ORDER BY CreatedDate ASC];
-		if (!debugInfoLog.isEmpty() && HWConfigService.debugInfoMaxNum != null && debugInfoLog.size() >= HWConfigService.debugInfoMaxNum){
+		if (!debugInfoLog.isEmpty() && APTS_ConfigService.debugInfoMaxNum != null && debugInfoLog.size() >= APTS_ConfigService.debugInfoMaxNum){
 			clearDebugInfoLog(debugInfoLog);
-		}else if (!debugInfoLog.isEmpty() && HWConfigService.debugInfoMaxAge != null && 
-				  (debugInfoLog[0].CreatedDate <= System.now().addDays(-1 * HWConfigService.debugInfoMaxAge)) || Test.isRunningTest()){
+		}else if (!debugInfoLog.isEmpty() && APTS_ConfigService.debugInfoMaxAge != null && 
+				  (debugInfoLog[0].CreatedDate <= System.now().addDays(-1 * APTS_ConfigService.debugInfoMaxAge)) || Test.isRunningTest()){
 			final List<DebugInfo__c> debugInfoToDelete = new List<DebugInfo__c>();
-			final DateTime maxAge = System.now().addDays(-1 * HWConfigService.debugInfoMaxAge);
+			final DateTime maxAge = System.now().addDays(-1 * APTS_ConfigService.debugInfoMaxAge);
 			for (DebugInfo__c di : debugInfoLog){
 				if (di.CreatedDate <= maxAge)
 					debugInfoToDelete.add(di);
@@ -211,12 +211,12 @@ public class HWDebugInstrumentation {
 	* @param List A list of debug info records to be deleted
 	*/
 	private static void clearDebugInfoLog(final List<DebugInfo__c> expiredDebugInfoLog){
-		if (HWConfigService.emailDebugInfoEnabled && HWConfigService.debugInfoEmails != null && HWConfigService.debugInfoEmails != ''){
+		if (APTS_ConfigService.emailDebugInfoEnabled && APTS_ConfigService.debugInfoEmails != null && APTS_ConfigService.debugInfoEmails != ''){
 			emailDebugInfoLog(expiredDebugInfoLog);
 		}
 		if (expiredDebugInfoLog.size() >0 ){
 			try {
-				HWDMLManager.deleteAsSystem(expiredDebugInfoLog);
+				APTS_DMLManager.deleteAsSystem(expiredDebugInfoLog);
 				Database.emptyRecycleBin(expiredDebugInfoLog);
 			}catch(Exception ex){
 				// Unable to delete debug info log
@@ -231,7 +231,7 @@ public class HWDebugInstrumentation {
 	private static void emailDebugInfoLog(final List<DebugInfo__c> debugInfoLog){
 		//Define email settings
         final Messaging.SingleEmailMessage debugInfoEmail = new Messaging.SingleEmailMessage();                   
-        debugInfoEmail.setToAddresses(HWConfigService.debugInfoEmails.split(';'));
+        debugInfoEmail.setToAddresses(APTS_ConfigService.debugInfoEmails.split(';'));
         debugInfoEmail.setSubject('DebugInfo Log for ' + UserInfo.getOrganizationName() + '(' + UserInfo.getOrganizationId() + ')');
         final String emailMessage = 'Attached is the DebugInfo log that was cleared for ' + UserInfo.getOrganizationName() + '(' + UserInfo.getOrganizationId() + ')';
         debugInfoEmail.setPlainTextBody(emailMessage);

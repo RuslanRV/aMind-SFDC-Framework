@@ -1,12 +1,12 @@
 /**
  * Class providing common database query support for abstracting and encapsulating query logic
  **/
-public abstract with sharing class HWSObjectSelector implements HWISObjectSelector{
+public abstract with sharing class APTS_SObjectSelector implements APTS_ISObjectSelector{
   
-   	private HWSObjectDescribe describeWrapper {
+   	private APTS_SObjectDescribe describeWrapper {
    		get {
    			if(describeWrapper == null)
-   				describeWrapper = HWSObjectDescribe.getDescribe(getSObjectType());
+   				describeWrapper = APTS_SObjectDescribe.getDescribe(getSObjectType());
    			return describeWrapper;
    		}
    		set;
@@ -17,7 +17,7 @@ public abstract with sharing class HWSObjectSelector implements HWISObjectSelect
     //abstract List<Schema.SObjectField> getSObjectFieldList();
     abstract Set<String> getSObjectFieldList();
 
-    public HWSObjectSelector() {
+    public APTS_SObjectSelector() {
     }
  
     public String getSObjectName(){

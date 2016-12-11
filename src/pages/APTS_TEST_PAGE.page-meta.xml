@@ -3,7 +3,7 @@
     <apiVersion>36.0</apiVersion>
     <availableInTouch>false</availableInTouch>
     <confirmationTokenRequired>false</confirmationTokenRequired>
-    <label>HW_TEST_PAGE</label>
+    <label>APTS_TEST_PAGE</label>
     <packageVersions>
         <majorNumber>8</majorNumber>
         <minorNumber>361</minorNumber>

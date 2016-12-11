@@ -1,7 +1,7 @@
 /**
 * @description Performs CRUD/FLS Security Checks for DML Statements
 **/
-public class HWDMLManager {
+public class APTS_DMLManager {
     // Items in the following set must be entered in lower case
     /* System fields to be ignored by module */
     private static Set<String> exceptionValues = new Set<String> {'id','isdeleted','createddate','systemmodstamp','lastmodifiedbyid','createdbyid','lastmodifieddate'};

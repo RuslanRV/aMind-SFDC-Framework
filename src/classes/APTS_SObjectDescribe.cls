@@ -5,7 +5,7 @@
  * This allows both upgrading old code to APIv29 by making use of these as a nearly drop in replacement, as well as keeping
  * namespace detection logic encapsulated.
 **/
-public class HWSObjectDescribe {
+public class APTS_SObjectDescribe {
 	//internal implementation details
 	private Schema.SObjectType token;
 	private Schema.SObjectField nameField;
@@ -46,7 +46,7 @@ public class HWSObjectDescribe {
 		set;
 	}
 
-	private HWSObjectDescribe(Schema.SObjectType token){	
+	private APTS_SObjectDescribe(Schema.SObjectType token){	
 		if(token == null){
 			throw new InvalidDescribeException('Invalid SObject type: null');
 		}
@@ -59,7 +59,7 @@ public class HWSObjectDescribe {
 
 	//public instace methods
 	/**
-	 * Returns the Schema.SObjectType this HWSObjectDescribe instance is based on.
+	 * Returns the Schema.SObjectType this APTS_SObjectDescribe instance is based on.
 	**/
 	public Schema.SObjectType getSObjectType(){
 		return token;
@@ -104,7 +104,7 @@ public class HWSObjectDescribe {
 	}
 	
 	/**
-	 * Returns the raw Schema.DescribeSObjectResult an HWSObjectDescribe instance wraps.
+	 * Returns the raw Schema.DescribeSObjectResult an APTS_SObjectDescribe instance wraps.
 	**/
 	public Schema.DescribeSObjectResult getDescribe(){
 		return describe;
@@ -143,51 +143,51 @@ public class HWSObjectDescribe {
 		set;
 	}
 	/**
-	 * This is used to cache HWSObjectDescribe instances as they're consutrcted
+	 * This is used to cache APTS_SObjectDescribe instances as they're consutrcted
 	 * to prevent repeatedly re-constructing the same type.
 	 * These instances are not guaranteed to be, but typically will be, unique per sObject type due to the presence of flushCache.
 	**/
-	private static Map<String, HWSObjectDescribe> instanceCache {get{
+	private static Map<String, APTS_SObjectDescribe> instanceCache {get{
 			if(instanceCache == null){
-				instanceCache = new Map<String, HWSObjectDescribe>();
+				instanceCache = new Map<String, APTS_SObjectDescribe>();
 			}
 			return instanceCache;
 		} 
 		set;
 	}
-	public static HWSObjectDescribe getDescribe(String sObjectName){
+	public static APTS_SObjectDescribe getDescribe(String sObjectName){
 		if(String.isBlank(sObjectName)){
 			return null;
 		}
-		HWSObjectDescribe result = instanceCache.get(sObjectName.toLowerCase());
+		APTS_SObjectDescribe result = instanceCache.get(sObjectName.toLowerCase());
 		if(result == null){
 			Schema.SObjectType token = wrappedGlobalDescribe.get(sObjectName.toLowerCase());
 			if(token == null){
 				result = null;
 			}else{
-				result = new HWSObjectDescribe(token);
+				result = new APTS_SObjectDescribe(token);
 			}
 		}
 		return result;
 	}
-	public static HWSObjectDescribe getDescribe(Schema.SObjectType token){
+	public static APTS_SObjectDescribe getDescribe(Schema.SObjectType token){
 		if(token == null){
 			return null;
 		}
-		HWSObjectDescribe result = instanceCache.get(String.valueOf(token).toLowerCase());
+		APTS_SObjectDescribe result = instanceCache.get(String.valueOf(token).toLowerCase());
 		if(result == null)
-			result = new HWSObjectDescribe(token);		
+			result = new APTS_SObjectDescribe(token);		
 		return result;
 	}
-	public static HWSObjectDescribe getDescribe(Schema.DescribeSObjectResult nativeDescribe){
+	public static APTS_SObjectDescribe getDescribe(Schema.DescribeSObjectResult nativeDescribe){
 		if(nativeDescribe == null)
 			return null;
-		HWSObjectDescribe result = instanceCache.get(nativeDescribe.getName().toLowerCase());
+		APTS_SObjectDescribe result = instanceCache.get(nativeDescribe.getName().toLowerCase());
 		if(result == null)
-			result = new HWSObjectDescribe(nativeDescribe.getSobjectType());		
+			result = new APTS_SObjectDescribe(nativeDescribe.getSobjectType());		
 		return result;
 	}
-	public static HWSObjectDescribe getDescribe(SObject instance){
+	public static APTS_SObjectDescribe getDescribe(SObject instance){
 		if(instance == null)
 			return null;
 		return getDescribe(instance.getSobjectType());
@@ -211,7 +211,7 @@ public class HWSObjectDescribe {
 	/**
 	 * This class handles emulating a Map<String,Object>'s non-mutating instance methods and helps navigate the complex topic of
 	 * handling implicit namespace behavior like pre-APIv29 did, while also allowing fully qualified references.
-	 * Note that this requires the API version of HWSObjectDescribe to be 29 or higher to function properly.
+	 * Note that this requires the API version of APTS_SObjectDescribe to be 29 or higher to function properly.
  	 *
 	 * Due to the lack of language support for covariant return types sublasses are responsible for implementing the get methods.
 	 * A minimal implementation of these would be a cast and returning getObject's result.
@@ -223,7 +223,7 @@ public class HWSObjectDescribe {
 
 		protected NamespacedAttributeMap(Map<String,Object> values){
 			//namespace detection courtesey http://salesforce.stackexchange.com/a/28977/60
-			currentNamespace = HWSObjectDescribe.class.getName().substringBefore('HWSObjectDescribe').removeEnd('.').toLowerCase();
+			currentNamespace = APTS_SObjectDescribe.class.getName().substringBefore('APTS_SObjectDescribe').removeEnd('.').toLowerCase();
 			this.values = values;
 		}
 		//A no-args constructor to allow subclasses with different contructor signatures

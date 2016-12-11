@@ -12,7 +12,7 @@
  * http://martinfowler.com/eaaCatalog/domainModel.html
  *
  **/
-public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
+public virtual with sharing class APTS_SObjectDomain implements APTS_ISObjectDomain{
 	/**
 	 * Provides access to the data represented by this domain class
 	 **/
@@ -41,7 +41,7 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 	/**
 	 * Retains instances of domain classes implementing trigger stateful
 	 **/
-	private static Map<Type, List<HWSObjectDomain>> TriggerStateByClass; 
+	private static Map<Type, List<APTS_SObjectDomain>> TriggerStateByClass; 
 	
 	/**
 	 * Retains the trigger tracking configuraiton used for each domain
@@ -54,7 +54,7 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 		
 		Test = new TestFactory();
 		
-		TriggerStateByClass = new Map<Type, List<HWSObjectDomain>>();
+		TriggerStateByClass = new Map<Type, List<APTS_SObjectDomain>>();
 
 		TriggerEventByClass = new Map<Type, TriggerEvent>();
 	}
@@ -65,7 +65,7 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 	 * @param sObjectList A concreate list (e.g. List<Account> vs List<SObject>) of records
 
 	 **/
-	public HWSObjectDomain(List<SObject> sObjectList)
+	public APTS_SObjectDomain(List<SObject> sObjectList)
 	{
 		this(sObjectList, sObjectList.getSObjectType());
 	}
@@ -79,7 +79,7 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 	 * @remark Will support List<SObject> but all records in the list will be assumed to be of
 	 *         the type specified in sObjectType
 	 **/
-	public HWSObjectDomain(List<SObject> sObjectList, SObjectType sObjectType)
+	public APTS_SObjectDomain(List<SObject> sObjectList, SObjectType sObjectType)
 	{
 		// Ensure the domain class has its own copy of the data
 		Records = sObjectList.clone(); 
@@ -249,7 +249,7 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 	 **/
 	public interface IConstructable
 	{
-		HWSObjectDomain construct(List<SObject> sObjectList);
+		APTS_SObjectDomain construct(List<SObject> sObjectList);
 	}
 
 	/**
@@ -257,7 +257,7 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 	 **/
 	public interface IConstructable2 extends IConstructable
 	{
-		HWSObjectDomain construct(List<SObject> sObjectList, SObjectType sObjectType);
+		APTS_SObjectDomain construct(List<SObject> sObjectList, SObjectType sObjectType);
 	}	
 	
 	/**
@@ -267,9 +267,9 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 	 *   the ITriggerStateful interface. Note this method is sensitive to recursion, meaning
 	 *   it will return the applicable domain instance for the level of recursion
 	 **/ 
-	public static HWSObjectDomain getTriggerInstance(Type domainClass)
+	public static APTS_SObjectDomain getTriggerInstance(Type domainClass)
 	{
-		List<HWSObjectDomain> domains = TriggerStateByClass.get(domainClass);
+		List<APTS_SObjectDomain> domains = TriggerStateByClass.get(domainClass);
 		if(domains==null || domains.size()==0)
 			return null;
 		return domains[domains.size()-1];
@@ -308,7 +308,7 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 	private static void triggerHandler(Type domainClass, Boolean isBefore, Boolean isAfter, Boolean isInsert, Boolean isUpdate, Boolean isDelete, Boolean isUndelete, List<SObject> newRecords, Map<Id, SObject> oldRecordsMap)
 	{	
 		// After phase of trigger will reuse prior instance of domain class if ITriggerStateful implemented 
-		HWSObjectDomain domainObject = isBefore ? null : popTriggerInstance(domainClass, isDelete ? oldRecordsMap.values() : newRecords);
+		APTS_SObjectDomain domainObject = isBefore ? null : popTriggerInstance(domainClass, isDelete ? oldRecordsMap.values() : newRecords);
 		if(domainObject==null)
 		{		
 			// Construct the domain class constructor class
@@ -353,23 +353,23 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 	/**
 	 * Pushes to the stack of domain classes per type a domain object instance
 	 **/
-	private static void pushTriggerInstance(Type domainClass, HWSObjectDomain domain)
+	private static void pushTriggerInstance(Type domainClass, APTS_SObjectDomain domain)
 	{
-		List<HWSObjectDomain> domains = TriggerStateByClass.get(domainClass);
+		List<APTS_SObjectDomain> domains = TriggerStateByClass.get(domainClass);
 		if(domains==null)
-			TriggerStateByClass.put(domainClass, domains = new List<HWSObjectDomain>());
+			TriggerStateByClass.put(domainClass, domains = new List<APTS_SObjectDomain>());
 		domains.add(domain);		
 	}
 	
 	/**
 	 * Pops from the stack of domain classes per type a domain object instance and updates the record set
 	 **/
-	private static HWSObjectDomain popTriggerInstance(Type domainClass, List<SObject> records)
+	private static APTS_SObjectDomain popTriggerInstance(Type domainClass, List<SObject> records)
 	{
-		List<HWSObjectDomain> domains = TriggerStateByClass.get(domainClass);
+		List<APTS_SObjectDomain> domains = TriggerStateByClass.get(domainClass);
 		if(domains==null || domains.size()==0)
 			return null;		
-		HWSObjectDomain domain = domains.remove(domains.size()-1);
+		APTS_SObjectDomain domain = domains.remove(domains.size()-1);
 		domain.Records = records;
 		return domain;
 	}
@@ -594,7 +594,7 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 			return error(null, message, record);	
 		}
 
-		private String error(HWSObjectDomain domain, String message, SObject record)
+		private String error(APTS_SObjectDomain domain, String message, SObject record)
 		{
 			ObjectError objectError = new ObjectError();
 			objectError.domain = domain;
@@ -609,7 +609,7 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 			return error(null, message, record, field);	
 		}
 
-		private String error(HWSObjectDomain domain, String message, SObject record, SObjectField field)
+		private String error(APTS_SObjectDomain domain, String message, SObject record, SObjectField field)
 		{
 			FieldError fieldError = new FieldError();
 			fieldError.domain = domain;
@@ -663,7 +663,7 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 	public abstract class Error
 	{
 		public String message;
-		public HWSObjectDomain domain;
+		public APTS_SObjectDomain domain;
 	}
 
 	/**
@@ -751,7 +751,7 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 	/**
 	 * Test domain class (ideally this would be in the test class, however Type.newInstance does not see such classes)
 	 **/
-	public with sharing class TestSObjectDomain extends HWSObjectDomain
+	public with sharing class TestSObjectDomain extends APTS_SObjectDomain
 	{
 		private String someState;
 		
@@ -840,9 +840,9 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 	/**
 	 * Typically an inner class to the domain class, supported here for test purposes
 	 **/	
-	public class TestSObjectDomainConstructor implements HWSObjectDomain.IConstructable
+	public class TestSObjectDomainConstructor implements APTS_SObjectDomain.IConstructable
 	{
-		public HWSObjectDomain construct(List<SObject> sObjectList)
+		public APTS_SObjectDomain construct(List<SObject> sObjectList)
 		{
 			return new TestSObjectDomain(sObjectList);
 		}
@@ -851,7 +851,7 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 	/**
 	 * Test domain class (ideally this would be in the test class, however Type.newInstance does not see such classes)
 	 **/
-	public with sharing class TestSObjectStatefulDomain extends HWSObjectDomain 
+	public with sharing class TestSObjectStatefulDomain extends APTS_SObjectDomain 
 	{
 		public String someState;
 		
@@ -884,8 +884,8 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 			if(newOpps.size()>0)
 			{
 				// This will force recursion and thus validate via the above assert results in a new domain instance
-				HWSObjectDomain.Test.Database.onInsert(newOpps);		
-				HWSObjectDomain.triggerHandler(HWSObjectDomain.TestSObjectStatefulDomainConstructor.class);
+				APTS_SObjectDomain.Test.Database.onInsert(newOpps);		
+				APTS_SObjectDomain.triggerHandler(APTS_SObjectDomain.TestSObjectStatefulDomainConstructor.class);
 			}								
 		}
 		
@@ -901,8 +901,8 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 	/**
 	 * Typically an inner class to the domain class, supported here for test purposes
 	 **/	
-	public class TestSObjectStatefulDomainConstructor implements HWSObjectDomain.IConstructable{
-		public HWSObjectDomain construct(List<SObject> sObjectList)
+	public class TestSObjectStatefulDomainConstructor implements APTS_SObjectDomain.IConstructable{
+		public APTS_SObjectDomain construct(List<SObject> sObjectList)
 		{
 			return new TestSObjectStatefulDomain(sObjectList);
 		}				
@@ -911,7 +911,7 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 	/**
 	 * Test domain class (ideally this would be in the test class, however Type.newInstance does not see such classes)
 	 **/
-	public with sharing class TestSObjectOnValidateBehaviour extends HWSObjectDomain{
+	public with sharing class TestSObjectOnValidateBehaviour extends APTS_SObjectDomain{
 		public TestSObjectOnValidateBehaviour(List<Opportunity> sObjectList)
 		{
 			super(sObjectList);
@@ -931,8 +931,8 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 	/**
 	 * Typically an inner class to the domain class, supported here for test purposes
 	 **/	
-	public class TestSObjectOnValidateBehaviourConstructor implements HWSObjectDomain.IConstructable{
-		public HWSObjectDomain construct(List<SObject> sObjectList)
+	public class TestSObjectOnValidateBehaviourConstructor implements APTS_SObjectDomain.IConstructable{
+		public APTS_SObjectDomain construct(List<SObject> sObjectList)
 		{
 			return new TestSObjectOnValidateBehaviour(sObjectList);
 		}				
@@ -941,7 +941,7 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 	/**
 	 * Test domain class (ideally this would be in the test class, however Type.newInstance does not see such classes)
 	 **/
-	public with sharing class TestSObjectDisableBehaviour extends HWSObjectDomain{
+	public with sharing class TestSObjectDisableBehaviour extends APTS_SObjectDomain{
 		public TestSObjectDisableBehaviour(List<Opportunity> sObjectList)
 		{
 			super(sObjectList);
@@ -986,8 +986,8 @@ public virtual with sharing class HWSObjectDomain implements HWISObjectDomain{
 	/**
 	 * Typically an inner class to the domain class, supported here for test purposes
 	 **/    
-	public class TestSObjectDisableBehaviourConstructor implements HWSObjectDomain.IConstructable{
-		public HWSObjectDomain construct(List<SObject> sObjectList)
+	public class TestSObjectDisableBehaviourConstructor implements APTS_SObjectDomain.IConstructable{
+		public APTS_SObjectDomain construct(List<SObject> sObjectList)
 		{
 			return new TestSObjectDisableBehaviour(sObjectList);
 		}

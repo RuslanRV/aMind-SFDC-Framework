@@ -1,12 +1,12 @@
-<apex:page docType="html-5.0" controller="HWConfigurationController" applyHtmlTag="false" applyBodyTag="false"
+<apex:page docType="html-5.0" controller="APTS_ConfigurationController" applyHtmlTag="false" applyBodyTag="false"
            showHeader="false" sidebar="false" standardStylesheets="false">
 
 <head>
         <title>honeywell</title>
         <apex:stylesheet value="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"/>
-        <apex:stylesheet value="{!URLFOR($Resource.HW_TEST_PAGE, 'lib/style/main.css')}"/>
-        <apex:stylesheet value="{!URLFOR($Resource.HW_TEST_PAGE, 'lib/style/notification.css')}"/>
-        <apex:stylesheet value="{!URLFOR($Resource.HW_TEST_PAGE, 'lib/style/font-awesome/css/font-awesome.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.APTS_TEST_PAGE, 'lib/style/main.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.APTS_TEST_PAGE, 'lib/style/notification.css')}"/>
+        <apex:stylesheet value="{!URLFOR($Resource.APTS_TEST_PAGE, 'lib/style/font-awesome/css/font-awesome.css')}"/>
     </head>
     <body ng-app="HNWL_CPQ" ng-controller="CatalogCtrl as catalog">
 
@@ -155,21 +155,21 @@
     <apex:includeScript value="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"/>
     
     <!-- Angular Modules-->
-    <apex:includeScript value="{!URLFOR($Resource.HW_TEST_PAGE, 'app/catalog/module.js')}"/>
-    <apex:includeScript value="{!URLFOR($Resource.HW_TEST_PAGE, 'app/mini-cart/module.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.APTS_TEST_PAGE, 'app/catalog/module.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.APTS_TEST_PAGE, 'app/mini-cart/module.js')}"/>
     
     <!-- Angular App Init-->
-    <apex:includeScript value="{!URLFOR($Resource.HW_TEST_PAGE, 'app/app.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.APTS_TEST_PAGE, 'app/app.js')}" />
     
     <!-- Angular Factories & Services -->
-    <apex:includeScript value="{!URLFOR($Resource.HW_TEST_PAGE, 'app/common/services/RemoteService.js')}"/>
-    <apex:includeScript value="{!URLFOR($Resource.HW_TEST_PAGE, 'app/common/services/NotificationService.js')}"/>
-    <apex:includeScript value="{!URLFOR($Resource.HW_TEST_PAGE, 'app/catalog/services/CatalogService.js')}"/>
-    <apex:includeScript value="{!URLFOR($Resource.HW_TEST_PAGE, 'app/mini-cart/services/MiniCartService.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.APTS_TEST_PAGE, 'app/common/services/RemoteService.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.APTS_TEST_PAGE, 'app/common/services/NotificationService.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.APTS_TEST_PAGE, 'app/catalog/services/CatalogService.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.APTS_TEST_PAGE, 'app/mini-cart/services/MiniCartService.js')}"/>
     
     
     <!-- Angular Controllers -->
-    <apex:includeScript value="{!URLFOR($Resource.HW_TEST_PAGE, 'app/catalog/controllers/CatalogCtrl.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.APTS_TEST_PAGE, 'app/catalog/controllers/CatalogCtrl.js')}"/>
     
     
     
@@ -180,10 +180,10 @@
         //var quoteNumber = 'Q-00000000';
         //var priceListId = 'a200Y0000008byW';
         service.RemoteActions = {
-            getCategoriesOfPriceList: '{!$RemoteAction.HWConfigurationController.categoriesOfPriceList}',
-            getProductsOfPriceListAndCategory : '{!$RemoteAction.HWConfigurationController.productsOfPriceListAndCategory}',            
-            addProductToCartWith : '{!$RemoteAction.HWConfigurationController.addProductToCartWith}',
-            //cartItemsOfQuote : '{!$RemoteAction.HWConfigurationController.cartItemsOfQuote}'
+            getCategoriesOfPriceList: '{!$RemoteAction.APTS_ConfigurationController.categoriesOfPriceList}',
+            getProductsOfPriceListAndCategory : '{!$RemoteAction.APTS_ConfigurationController.productsOfPriceListAndCategory}',            
+            addProductToCartWith : '{!$RemoteAction.APTS_ConfigurationController.addProductToCartWith}',
+            //cartItemsOfQuote : '{!$RemoteAction.APTS_ConfigurationController.cartItemsOfQuote}'
         };
     }
     </script>    

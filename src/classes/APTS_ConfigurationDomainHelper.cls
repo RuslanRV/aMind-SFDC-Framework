@@ -1,4 +1,4 @@
-global  class HWConfigurationDomainHelper {
+global  class APTS_ConfigurationDomainHelper {
 
     global class Product{
         public ID id { get; set; }

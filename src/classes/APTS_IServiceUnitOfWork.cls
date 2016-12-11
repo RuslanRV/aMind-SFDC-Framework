@@ -1,7 +1,7 @@
 /**
- * @see HWServiceUnitOfWork
+ * @see APTS_ServiceUnitOfWork
  **/
-public interface HWIServiceUnitOfWork{
+public interface APTS_IServiceUnitOfWork{
 	/**
 	 * Register a newly created SObject instance to be inserted when commitWork is called
 	 *
@@ -65,7 +65,7 @@ public interface HWIServiceUnitOfWork{
 	 *
 	 * @param work Work to be registered
 	 **/
-	void registerWork(HWServiceUnitOfWork.IDoWork work);
+	void registerWork(APTS_ServiceUnitOfWork.IDoWork work);
 	/**
 	 * Registers the given email to be sent during the commitWork
 	 *

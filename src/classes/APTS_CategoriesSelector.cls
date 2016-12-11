@@ -1,10 +1,10 @@
 /**
  * This is a basic selector for price list categories
  **/
-public class HWCategoriesSelector extends HWSObjectSelector implements HWICategoriesSelector{
+public class APTS_CategoriesSelector extends APTS_SObjectSelector implements APTS_ICategoriesSelector{
 	
-	public static HWICategoriesSelector newInstance(){
-		return (HWICategoriesSelector)HWApplication.Selector.newInstance(Apttus_Config2__ClassificationName__c.SObjectType);
+	public static APTS_ICategoriesSelector newInstance(){
+		return (APTS_ICategoriesSelector)APTS_Application.Selector.newInstance(Apttus_Config2__ClassificationName__c.SObjectType);
 	}
 	
 	public Set<String> getSObjectFieldList(){
