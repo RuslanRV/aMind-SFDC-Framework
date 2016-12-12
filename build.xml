@@ -33,7 +33,17 @@
         <runTest>APTS_CategoriesSelectorTest</runTest>
      </sf:deploy>
     </target>
-
+    
+    <target name="deployRunLocalTests">
+        <sf:deploy username="${sf.username}" 
+            password="${sf.password}" 
+            serverurl="${sf.serverurl}" 
+            logType="Detail"
+            deployroot="src"
+            testLevel="RunLocalTests">
+     </sf:deploy>
+    </target>
+    
     <target name="undeployCode">
       <sf:deploy username="${sf.username}" 
         password="${sf.password}" 
