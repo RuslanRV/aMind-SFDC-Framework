@@ -20,6 +20,19 @@
         logType="Detail"
         deployRoot="src"/>
     </target>
+    
+    <target name="deployRunAllSpecifiedTests">
+        <sf:deploy username="${sf.username}" 
+            password="${sf.password}" 
+            serverurl="${sf.serverurl}" 
+            logType="Detail"
+            deployroot="src"
+            testLevel="RunSpecifiedTests">
+        <runTest>APTS_ConfigurationControllerTest</runTest>
+        <runTest>APTS_ConfigurationServiceTest</runTest>
+        <runTest>APTS_CategoriesSelectorTest</runTest>
+     </sf:deploy>
+    </target>
 
     <target name="undeployCode">
       <sf:deploy username="${sf.username}" 
