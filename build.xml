@@ -21,7 +21,7 @@
         deployRoot="src"/>
     </target>
     
-    <target name="deployRunAllSpecifiedTests">
+    <target name="deployRunSpecifiedTests">
         <sf:deploy username="${sf.username}" 
             password="${sf.password}" 
             serverurl="${sf.serverurl}" 
