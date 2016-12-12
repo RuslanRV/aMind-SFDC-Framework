@@ -27,3 +27,4 @@
         <value xsi:type="xsd:double">100.0</value>
     </values>
 </CustomMetadata>
+ 
