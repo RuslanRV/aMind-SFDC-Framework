@@ -9,7 +9,7 @@ public with sharing class APTS_ConfigurationController {
 
         try{
         	if(String.isBlank(priceListId)){
-        		//throw new APTS_DebugInstrumentation.CustomException('PriceListId must not be empty', APTS_Constants.ERR_EMPTY_INPUT_PARAM);
+        		throw new APTS_DebugInstrumentation.CustomException('PriceListId must not be empty', APTS_Constants.ERR_EMPTY_INPUT_PARAM);
         	}
 			result = APTS_ConfigurationService.categoriesOfPriceList(priceListId);
         }catch(Exception ex){
@@ -31,16 +31,15 @@ public with sharing class APTS_ConfigurationController {
 
         try{        	
         	if(String.isBlank(priceListId) || String.isBlank(categoryId)){
-        		//throw new APTS_DebugInstrumentation.CustomException('Both PriceListId and CategoryId must not be empty', APTS_Constants.ERR_EMPTY_INPUT_PARAM);
+        		throw new APTS_DebugInstrumentation.CustomException('Both PriceListId and CategoryId must not be empty', APTS_Constants.ERR_EMPTY_INPUT_PARAM);
         	}
 			result = APTS_ConfigurationService.productsOfPriceListAndCategory(priceListId, categoryId);
 			if(result == null || result.size() == 0){
-				//throw new APTS_DebugInstrumentation.CustomException('Product not found', APTS_Constants.ERR_GP);
+				throw new APTS_DebugInstrumentation.CustomException('Product not found', APTS_Constants.ERR_GP);
 			}
-      //  }catch(APTS_DebugInstrumentation.CustomException rnfe){
-    		//APTS_DebugInstrumentation.debugException(rnfe);
-      //  
-  		}catch(Exception ex){
+        }catch(APTS_DebugInstrumentation.CustomException rnfe){
+    		APTS_DebugInstrumentation.debugException(rnfe);
+        }catch(Exception ex){
     		APTS_DebugInstrumentation.debugException(ex, APTS_Constants.ERR_GP);
         }finally{
         }
