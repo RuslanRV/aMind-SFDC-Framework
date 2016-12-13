@@ -1,10 +1,3 @@
-/**
- * Of particular note for use in contexts that may be released as managed packages are the #getFields and get #getGlobalDescribe methods 
- * These return special immutable wrapper objects that automatically imply the current namespace (detected as the one this class is contained in)
- * and allow an older API style of omitting the namespace when working with fields or global describe maps.
- * This allows both upgrading old code to APIv29 by making use of these as a nearly drop in replacement, as well as keeping
- * namespace detection logic encapsulated.
-**/
 public class APTS_SObjectDescribe {
 	//internal implementation details
 	private Schema.SObjectType token;
