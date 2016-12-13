@@ -8,11 +8,11 @@ public class APTS_DebugInstrumentation {
 		public String resolutionMsg { get; private set;}
 		public String errorCode { get; private set;}
 
-		public CustomException(final String msg, final String errCode, final String resMsg){
-			this(msg);
-			this.errorCode = errCode;
-			this.resolutionMsg = resMsg == null ? '\nPlease contact your system administrator' : resMsg;
-		}
+		//public CustomException(final String msg, final String errCode, final String resMsg){
+		//	this(msg);
+		//	this.errorCode = errCode;
+		//	this.resolutionMsg = resMsg == null ? '\nPlease contact your system administrator' : resMsg;
+		//}
 
 		public CustomException(final String msg, final String errCode){
 			this(msg);
@@ -87,10 +87,10 @@ public class APTS_DebugInstrumentation {
 			exceptionTrace += ' | ' + st;
 		}		
 		exceptionTrace += ' |\n ';
-		
+
 		if(APTS_ConfigService.loggingEnabled){
 			try {
-				APTS_DMLManager.insertAsSystem(dbg);
+				Database.insert(dbg);
 			}catch(Exception e){
 				// Unable to insert debug info
 			}
@@ -98,6 +98,7 @@ public class APTS_DebugInstrumentation {
 				checkDebugInfoLog();
 			}
 		}
+
 		popAll();
 	}
 
@@ -123,7 +124,7 @@ public class APTS_DebugInstrumentation {
 		
 		if(APTS_ConfigService.loggingEnabled){
 			try {
-				APTS_DMLManager.insertAsSystem(dbg);
+				Database.insert(dbg);
 			}catch(Exception e){
 				// Unable to insert debug info
 			}
@@ -155,19 +156,19 @@ public class APTS_DebugInstrumentation {
 	* @description Returns - human readable message to end user
 	* @return String Indented log of debug message
 	*/
-	public static String defaultMessage(){
-		if(debugLog == null) return null;
-		String spaces = '                                                                        ';
-		String result = '';
-		for(DebugEntry de: debugLog){
-			Integer endindex = 3 * de.level;
-			if(endindex >= spaces.length()){ 
-				endindex = spaces.length() - 1; 
-			}
-			result += spaces.substring(0, endindex) + de.description + '\n';
-		}
-		return result;
-	}
+	//public static String defaultMessage(){
+	//	if(debugLog == null) return null;
+	//	String spaces = '                                                                        ';
+	//	String result = '';
+	//	for(DebugEntry de: debugLog){
+	//		Integer endindex = 3 * de.level;
+	//		if(endindex >= spaces.length()){ 
+	//			endindex = spaces.length() - 1; 
+	//		}
+	//		result += spaces.substring(0, endindex) + de.description + '\n';
+	//	}
+	//	return result;
+	//}
 	
 	/**
 	* @description Returns multi-line string representation of debug log
@@ -211,12 +212,12 @@ public class APTS_DebugInstrumentation {
 	* @param List A list of debug info records to be deleted
 	*/
 	private static void clearDebugInfoLog(final List<DebugInfo__c> expiredDebugInfoLog){
-		if (APTS_ConfigService.emailDebugInfoEnabled && APTS_ConfigService.debugInfoEmails != null && APTS_ConfigService.debugInfoEmails != ''){
-			emailDebugInfoLog(expiredDebugInfoLog);
-		}
+		//if (APTS_ConfigService.emailDebugInfoEnabled && APTS_ConfigService.debugInfoEmails != null && APTS_ConfigService.debugInfoEmails != ''){
+		//	emailDebugInfoLog(expiredDebugInfoLog);
+		//}
 		if (expiredDebugInfoLog.size() >0 ){
 			try {
-				APTS_DMLManager.deleteAsSystem(expiredDebugInfoLog);
+				Database.delete(expiredDebugInfoLog);
 				Database.emptyRecycleBin(expiredDebugInfoLog);
 			}catch(Exception ex){
 				// Unable to delete debug info log
@@ -228,86 +229,86 @@ public class APTS_DebugInstrumentation {
 	* @description Emails DebugInfo log
 	* @param List A list of debug info records to be emailed
 	*/
-	private static void emailDebugInfoLog(final List<DebugInfo__c> debugInfoLog){
-		//Define email settings
-        final Messaging.SingleEmailMessage debugInfoEmail = new Messaging.SingleEmailMessage();                   
-        debugInfoEmail.setToAddresses(APTS_ConfigService.debugInfoEmails.split(';'));
-        debugInfoEmail.setSubject('DebugInfo Log for ' + UserInfo.getOrganizationName() + '(' + UserInfo.getOrganizationId() + ')');
-        final String emailMessage = 'Attached is the DebugInfo log that was cleared for ' + UserInfo.getOrganizationName() + '(' + UserInfo.getOrganizationId() + ')';
-        debugInfoEmail.setPlainTextBody(emailMessage);
-        debugInfoEmail.setHtmlBody(emailMessage);
+	//private static void emailDebugInfoLog(final List<DebugInfo__c> debugInfoLog){
+	//	//Define email settings
+ //       final Messaging.SingleEmailMessage debugInfoEmail = new Messaging.SingleEmailMessage();                   
+ //       debugInfoEmail.setToAddresses(APTS_ConfigService.debugInfoEmails.split(';'));
+ //       debugInfoEmail.setSubject('DebugInfo Log for ' + UserInfo.getOrganizationName() + '(' + UserInfo.getOrganizationId() + ')');
+ //       final String emailMessage = 'Attached is the DebugInfo log that was cleared for ' + UserInfo.getOrganizationName() + '(' + UserInfo.getOrganizationId() + ')';
+ //       debugInfoEmail.setPlainTextBody(emailMessage);
+ //       debugInfoEmail.setHtmlBody(emailMessage);
         
-        //Generate attachment
-        final String csvString = new DebugInfoLogAttachment().generate(debugInfoLog);
-        final transient Blob csvAttachment = Blob.valueOf(csvString);
-        final transient Messaging.EmailFileAttachment efa = new Messaging.EmailFileAttachment();
-        efa.setBody(csvAttachment);
-        efa.setContentType('text/csv');
-        efa.setFileName(System.today().format() + '_' + UserInfo.getOrganizationName() + '_DebugInfoLog.csv');
-        efa.setInline(false);
-        debugInfoEmail.setFileAttachments(new Messaging.EmailFileAttachment[] {efa});
+ //       //Generate attachment
+ //       final String csvString = new DebugInfoLogAttachment().generate(debugInfoLog);
+ //       final transient Blob csvAttachment = Blob.valueOf(csvString);
+ //       final transient Messaging.EmailFileAttachment efa = new Messaging.EmailFileAttachment();
+ //       efa.setBody(csvAttachment);
+ //       efa.setContentType('text/csv');
+ //       efa.setFileName(System.today().format() + '_' + UserInfo.getOrganizationName() + '_DebugInfoLog.csv');
+ //       efa.setInline(false);
+ //       debugInfoEmail.setFileAttachments(new Messaging.EmailFileAttachment[] {efa});
         
-        //Send email
-        if (!Test.isRunningTest()){
-        	Messaging.sendEmail(new Messaging.SingleEmailMessage[] {debugInfoEmail});
-        }
-	}
+ //       //Send email
+ //       if (!Test.isRunningTest()){
+ //       	Messaging.sendEmail(new Messaging.SingleEmailMessage[] {debugInfoEmail});
+ //       }
+	//}
 
 	/**
 	* @description Inner class that represents a custom debug log attachment
 	*/
-	private class DebugInfoLogAttachment {		
-		/**
-		* @description Converts a list of debug info records into a string
-		* @param List A list of debug info records
-		* @return String A string representation of the debug info log
-		*/
-		private String generate(final List<DebugInfo__c> diLog) {
-	        String s = line(new String[] {
-	                format('DebugInfo Entry'),
-	                format('Created Date'),
-	                format('Debug Message'),
-	                format('Debug Error Code'),
-	                format('Debug Data')
-	                });
-	        for (DebugInfo__c di : diLog) {
-	            s += line(new String[] {
-	                    format(di.Name),
-	                    format(di.CreatedDate),
-	                    format(di.DebugMessage__c),
-	                    format(di.DebugErrorCode__c),
-	                    format(di.DebugData__c)
-	                    });
-	        }
-	        return s;
-	    }
+	//private class DebugInfoLogAttachment {		
+	//	/**
+	//	* @description Converts a list of debug info records into a string
+	//	* @param List A list of debug info records
+	//	* @return String A string representation of the debug info log
+	//	*/
+	//	private String generate(final List<DebugInfo__c> diLog) {
+	//        String s = line(new String[] {
+	//                format('DebugInfo Entry'),
+	//                format('Created Date'),
+	//                format('Debug Message'),
+	//                format('Debug Error Code'),
+	//                format('Debug Data')
+	//                });
+	//        for (DebugInfo__c di : diLog) {
+	//            s += line(new String[] {
+	//                    format(di.Name),
+	//                    format(di.CreatedDate),
+	//                    format(di.DebugMessage__c),
+	//                    format(di.DebugErrorCode__c),
+	//                    format(di.DebugData__c)
+	//                    });
+	//        }
+	//        return s;
+	//    }
 
-	    /**
-		* @description Converts list of strings to single, comma-delimited string with a line break
-		* @param List A list of strings
-		* @return String A comma-delimited string with a line break
-		*/
-	    private String line(final String[] cells) {
-	        return String.join(cells, ',') + '\n';
-	    }
+	//    /**
+	//	* @description Converts list of strings to single, comma-delimited string with a line break
+	//	* @param List A list of strings
+	//	* @return String A comma-delimited string with a line break
+	//	*/
+	//    private String line(final String[] cells) {
+	//        return String.join(cells, ',') + '\n';
+	//    }
 
-	    /**
-		* @description Converts datetime to CSV-formatted string
-		* @param DateTime Datetime value
-		* @return String CSV-formatted representation of datetime value
-		*/
-	    private String format(final DateTime dt)    {
-	        return dt != null ? '"' + dt.format().escapeCsv() + '"' : '""';
-	    }
+	//    /**
+	//	* @description Converts datetime to CSV-formatted string
+	//	* @param DateTime Datetime value
+	//	* @return String CSV-formatted representation of datetime value
+	//	*/
+	//    private String format(final DateTime dt)    {
+	//        return dt != null ? '"' + dt.format().escapeCsv() + '"' : '""';
+	//    }
 
-	    /**
-		* @description Converts text value to CSV-formatted string
-		* @param String Text value
-		* @return String CSV-formatted representation of text value
-		*/
-	    private String format(final String s) {
-	        return s != null ? '"' + s.escapeCsv() + '"' : '""';
-	    }
-	}
+	//    /**
+	//	* @description Converts text value to CSV-formatted string
+	//	* @param String Text value
+	//	* @return String CSV-formatted representation of text value
+	//	*/
+	//    private String format(final String s) {
+	//        return s != null ? '"' + s.escapeCsv() + '"' : '""';
+	//    }
+	//}
 	
 }
