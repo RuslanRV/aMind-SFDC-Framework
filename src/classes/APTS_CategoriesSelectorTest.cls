@@ -1,8 +1,12 @@
 @isTest
 private class APTS_CategoriesSelectorTest{
 
+	@testSetup static void setup(){
+		APTS_ConfigService.resetTestSettings();
+	}
+
 	@IsTest
-	private static void testSelectById(){
+	private static void shouldReturnCategoriesMatchesCategoriesSize(){
 		
 		//Given
 		final Integer numberOfCategories = 4;
@@ -13,12 +17,13 @@ private class APTS_CategoriesSelectorTest{
 		for(Apttus_Config2__ClassificationName__c cat : categoriesTmp){
 			catIds.add(cat.Id);
 		}
-
-		final List<Apttus_Config2__ClassificationName__c> categories = new APTS_CategoriesSelector().selectById(catIds);
+		final APTS_ICategoriesSelector ics = new APTS_CategoriesSelector();
+		final List<Apttus_Config2__ClassificationName__c> categories = ics.selectById(catIds);
 			
 		//Then
+		System.assertEquals(Apttus_Config2__ClassificationName__c.getSObjectType(), ics.sObjectType(), 'Expected Apttus_Config2__ClassificationName__c sObjectType');
 		System.assertEquals(categoriesTmp.size(), categories.size(), 'Categories mismatches');
-		System.assertEquals(categories.size(), numberOfCategories, 'Expected ' + numberOfCategories + ' categories, but received ' + categories.size());		
+		System.assertEquals(categories.size(), numberOfCategories, 'Expected ' + numberOfCategories + ' categories, but received ' + categories.size());
 	}
 
 }
