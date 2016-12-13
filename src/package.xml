@@ -14,7 +14,6 @@
 		<members>APTS_ConfigurationServiceTest</members>
 		<members>APTS_ConfigurationServiceTestUtil</members>
 		<members>APTS_Constants</members>
-		<members>APTS_DMLManager</members>
 		<members>APTS_DebugInstrumentation</members>
 		<members>APTS_ICartService</members>
 		<members>APTS_ICategories</members>
