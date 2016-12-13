@@ -8,6 +8,9 @@ public with sharing class APTS_ConfigurationController {
         List<APTS_ConfigurationDomainHelper.Category> result;
 
         try{
+        	if(String.isBlank(priceListId)){
+        		throw new APTS_DebugInstrumentation.CustomException('PriceListId must not be empty', APTS_Constants.ERR_EMPTY_INPUT_PARAM);
+        	}
 			result = APTS_ConfigurationService.categoriesOfPriceList(priceListId);
         }catch(Exception ex){
     		APTS_DebugInstrumentation.debugException(ex, APTS_Constants.ERR_GC);
@@ -15,10 +18,7 @@ public with sharing class APTS_ConfigurationController {
         }
         
         APTS_DebugInstrumentation.pop();
-        
-        //Set<ID> idSet = new Set<ID>{'a1u0Y000000PrM8'};
-        //List<Apttus_Config2__ClassificationName__c> dd = APTS_ConfigurationService.categoriesById(idSet);
-       
+               
         return result;
 	}
 
@@ -29,7 +29,10 @@ public with sharing class APTS_ConfigurationController {
 
 		List<APTS_ConfigurationDomainHelper.Product> result;
 
-        try{
+        try{        	
+        	if(String.isBlank(priceListId) || String.isBlank(categoryId)){
+        		throw new APTS_DebugInstrumentation.CustomException('Both PriceListId and CategoryId must not be empty', APTS_Constants.ERR_EMPTY_INPUT_PARAM);
+        	}
 			result = APTS_ConfigurationService.productsOfPriceListAndCategory(priceListId, categoryId);
 			if(result == null || result.size() == 0){
 				throw new APTS_DebugInstrumentation.CustomException('Product not found', APTS_Constants.ERR_GP);
@@ -57,24 +60,4 @@ public with sharing class APTS_ConfigurationController {
 		//return APTS_ConfigurationService.lineItemsOfCart(cartId);
 		return new List<Apttus_Config2__LineItem__c>();
 	}
-
-
-	//@RemoteAction
-	//public static List<APTS_ConfigurationDomainHelper.Category> categoriesOfPriceList2(ID priceListId) {        
-       
- //       APTS_DebugInstrumentation.push('APTS_ConfigurationController.categoriesOfPriceList2');
-
- //       List<APTS_ConfigurationDomainHelper.Category> result;
-
- //       try{
-	//		result = APTS_ConfigurationService.categoriesOfPriceList2(priceListId);
- //       }catch(Exception ex){
- //   		APTS_DebugInstrumentation.debugException(ex, APTS_Constants.ERR_GC);
- //       }finally{        	
- //       }
-        
- //       APTS_DebugInstrumentation.pop();
-
- //       return result;
-	//}
 }
