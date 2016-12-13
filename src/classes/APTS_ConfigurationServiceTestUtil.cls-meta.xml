@@ -11,5 +11,10 @@
         <minorNumber>128</minorNumber>
         <namespace>Apttus_Proposal</namespace>
     </packageVersions>
+    <packageVersions>
+        <majorNumber>9</majorNumber>
+        <minorNumber>187</minorNumber>
+        <namespace>Apttus_QPConfig</namespace>
+    </packageVersions>
     <status>Active</status>
 </ApexClass>
