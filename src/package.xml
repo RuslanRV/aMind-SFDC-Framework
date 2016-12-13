@@ -5,11 +5,11 @@
         <name>ApexClass</name>
     </types>
     <types>
-        <members>APTS_Config.Default</members>
+        <members>*</members>
         <name>CustomMetadata</name>
     </types>
     <types>
-        <members>APTS_Config__mdt</members>
+        <members>*</members>
         <name>CustomObject</name>
     </types>
     <version>36.0</version>
