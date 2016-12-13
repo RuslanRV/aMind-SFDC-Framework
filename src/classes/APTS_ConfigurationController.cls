@@ -37,9 +37,10 @@ public with sharing class APTS_ConfigurationController {
 			if(result == null || result.size() == 0){
 				//throw new APTS_DebugInstrumentation.CustomException('Product not found', APTS_Constants.ERR_GP);
 			}
-        }catch(APTS_DebugInstrumentation.CustomException rnfe){
-    		APTS_DebugInstrumentation.debugException(rnfe);
-        }catch(Exception ex){
+      //  }catch(APTS_DebugInstrumentation.CustomException rnfe){
+    		//APTS_DebugInstrumentation.debugException(rnfe);
+      //  
+  		}catch(Exception ex){
     		APTS_DebugInstrumentation.debugException(ex, APTS_Constants.ERR_GP);
         }finally{
         }
