@@ -33,20 +33,12 @@
 		<name>ApexClass</name>
 	</types>
 	<types>
-		<members>APTS_TEST_PAGE</members>
-		<name>ApexPage</name>
-	</types>
-	<types>
 		<members>APTS_Config.Default</members>
 		<name>CustomMetadata</name>
 	</types>
 	<types>
 		<members>APTS_Config__mdt</members>
 		<name>CustomObject</name>
-	</types>
-	<types>
-		<members>APTS_TEST_PAGE</members>
-		<name>StaticResource</name>
 	</types>
 	<version>36.0</version>
 </Package>
