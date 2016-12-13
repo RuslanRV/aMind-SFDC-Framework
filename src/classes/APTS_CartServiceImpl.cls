@@ -56,7 +56,7 @@ public class APTS_CartServiceImpl implements APTS_ICartService{
 				}
 
 				if(this.ccrDO == null || this.ccrDO.cartId == null){
-					throw new APTS_DebugInstrumentation.CustomException('Could not create a cart');
+					//throw new APTS_DebugInstrumentation.CustomException('Could not create a cart');
 				}
 			}
 		}
@@ -79,7 +79,7 @@ public class APTS_CartServiceImpl implements APTS_ICartService{
 			this.amprDO = Apttus_CPQApi.CPQWebService.addMultiProducts(request);
 	
 			if(this.amprDO == null){
-				throw new APTS_DebugInstrumentation.CustomException('Could not add a product to the cart');
+				//throw new APTS_DebugInstrumentation.CustomException('Could not add a product to the cart');
 			}
 		}
 	}
