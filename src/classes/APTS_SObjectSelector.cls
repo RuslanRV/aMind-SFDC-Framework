@@ -54,4 +54,4 @@ public abstract with sharing class APTS_SObjectSelector implements APTS_ISObject
     public SObjectType sObjectType(){
         return getSObjectType();
     }
-}
+} 
