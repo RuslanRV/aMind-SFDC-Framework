@@ -8,11 +8,13 @@ public with sharing class APTS_Categories extends APTS_SObjectDomain	implements 
 		super(sObjectList);
 	}
 	
-	public void updateCategoriesType(APTS_ServiceUnitOfWork uow){		
+	public void updateCategoriesType(APTS_IServiceUnitOfWork uow){		
 		for(Apttus_Config2__ClassificationName__c pcat : (List<Apttus_Config2__ClassificationName__c>) Records){
-			//do some change here...
+			pcat.Apttus_Config2__Type__c = 'Both';
 			uow.registerDirty(pcat);
 		}
+
+		uow.commitWork();
 	}
 
 	public class Constructor implements APTS_SObjectDomain.IConstructable{
