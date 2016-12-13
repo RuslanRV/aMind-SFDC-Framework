@@ -17,7 +17,7 @@ private class APTS_CategoriesSelectorTest{
 		for(Apttus_Config2__ClassificationName__c cat : categoriesTmp){
 			catIds.add(cat.Id);
 		}
-		final APTS_ICategoriesSelector ics = new APTS_CategoriesSelector();
+		final APTS_CategoriesSelector ics = new APTS_CategoriesSelector();
 		final List<Apttus_Config2__ClassificationName__c> categories = ics.selectById(catIds);
 			
 		//Then
