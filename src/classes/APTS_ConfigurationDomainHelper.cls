@@ -29,10 +29,4 @@ global  class APTS_ConfigurationDomainHelper {
             this.productCount = cat.ProductCount;
         }
     }
-
-    global class LineItem{
-        public ID id { get; set; }
-        public String name { get; set; }
-        public ID cartId { get; set; }
-    }
 }
