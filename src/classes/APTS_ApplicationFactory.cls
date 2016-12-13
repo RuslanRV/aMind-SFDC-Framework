@@ -31,9 +31,9 @@ public class APTS_ApplicationFactory{
 			m_objectTypes = new List<SObjectType>();
 		}
 
-		public UnitOfWorkFactory(List<SObjectType> objectTypes){
-			m_objectTypes = objectTypes.clone();
-		}
+		//public UnitOfWorkFactory(List<SObjectType> objectTypes){
+		//	m_objectTypes = objectTypes.clone();
+		//}
 
 		public APTS_IServiceUnitOfWork newInstance(){
 			return new APTS_ServiceUnitOfWork(m_objectTypes);
@@ -43,6 +43,30 @@ public class APTS_ApplicationFactory{
 			return new APTS_ServiceUnitOfWork(objectTypes);
 		}
 	}
+
+	/**
+	 * Class implements a Mock Factory
+	 **/
+/*	public class MockFactory{
+
+		private Object mockObject;
+
+		public MockFactory(){
+			this.mockObject = null;
+		}
+
+		public void clearMockObject(){
+			this.mockObject = null;
+		}
+
+		public void setMockObject(final Object obj){
+			this.mockObject = obj;
+		}
+
+		public Object getMockObject(){
+			return this.mockObject;
+		}
+	}*/
 
 	/**
 	 * Class implements a Domain class factory
@@ -56,10 +80,10 @@ public class APTS_ApplicationFactory{
 			m_sObjectByDomainConstructorType = sObjectByDomainConstructorType;
 		}			
 
-		public APTS_ISObjectDomain newInstance(Set<Id> recordIds){
-			return newInstance(m_selectorFactory.selectById(recordIds));
+		//public APTS_ISObjectDomain newInstance(Set<Id> recordIds){
+		//	return newInstance(m_selectorFactory.selectById(recordIds));
 
-		}	
+		//}	
 
 		public APTS_ISObjectDomain newInstance(List<SObject> records){
 			SObjectType domainSObjectType = records.getSObjectType();
@@ -78,21 +102,21 @@ public class APTS_ApplicationFactory{
 			return (APTS_ISObjectDomain) domainConstructor.construct(records);
 		}	
 
-		public APTS_ISObjectDomain newInstance(List<SObject> records, SObjectType domainSObjectType){
-			if(domainSObjectType == null){
-				throw new DeveloperException('Must specify sObjectType');
-			}
+		//public APTS_ISObjectDomain newInstance(List<SObject> records, SObjectType domainSObjectType){
+		//	if(domainSObjectType == null){
+		//		throw new DeveloperException('Must specify sObjectType');
+		//	}
 
-			// Determine SObjectType and Apex classes for Domain class
-			Type domainConstructorClass = m_sObjectByDomainConstructorType.get(domainSObjectType);
-			if(domainConstructorClass == null){
-				throw new DeveloperException('Domain constructor class not found for SObjectType ' + domainSObjectType);
-			}
+		//	// Determine SObjectType and Apex classes for Domain class
+		//	Type domainConstructorClass = m_sObjectByDomainConstructorType.get(domainSObjectType);
+		//	if(domainConstructorClass == null){
+		//		throw new DeveloperException('Domain constructor class not found for SObjectType ' + domainSObjectType);
+		//	}
 
-			// Construct Domain class passing in the queried records
-			APTS_SObjectDomain.IConstructable2 domainConstructor = (APTS_SObjectDomain.IConstructable2) domainConstructorClass.newInstance();
-			return (APTS_ISObjectDomain) domainConstructor.construct(records, domainSObjectType);
-		}
+		//	// Construct Domain class passing in the queried records
+		//	APTS_SObjectDomain.IConstructable2 domainConstructor = (APTS_SObjectDomain.IConstructable2) domainConstructorClass.newInstance();
+		//	return (APTS_ISObjectDomain) domainConstructor.construct(records, domainSObjectType);
+		//}
 	}
 
 
@@ -117,34 +141,34 @@ public class APTS_ApplicationFactory{
 			return (APTS_ISObjectSelector) selectorClass.newInstance();			
 		}
 	
-		public List<SObject> selectById(Set<Id> recordIds){
-			// No point creating an empty Domain class, nor can we determine the SObjectType anyway
-			if(recordIds == null || recordIds.size() == 0){
-				throw new DeveloperException('Invalid record Id\'s set');	
-			}
+		//public List<SObject> selectById(Set<Id> recordIds){
+		//	// No point creating an empty Domain class, nor can we determine the SObjectType anyway
+		//	if(recordIds == null || recordIds.size() == 0){
+		//		throw new DeveloperException('Invalid record Id\'s set');	
+		//	}
 
-			// Determine SObjectType
-			SObjectType domainSObjectType = new List<Id>(recordIds)[0].getSObjectType();
-			for(Id recordId : recordIds){
-				if(recordId.getSobjectType() != domainSObjectType){
-					throw new DeveloperException('Unable to determine SObjectType, Set contains Id\'s from different SObject types');	
-				}
-			}
+		//	// Determine SObjectType
+		//	SObjectType domainSObjectType = new List<Id>(recordIds)[0].getSObjectType();
+		//	for(Id recordId : recordIds){
+		//		if(recordId.getSobjectType() != domainSObjectType){
+		//			throw new DeveloperException('Unable to determine SObjectType, Set contains Id\'s from different SObject types');	
+		//		}
+		//	}
 
-			// Construct Selector class and query by Id for the records
-			return newInstance(domainSObjectType).selectSObjectsById(recordIds);
-		}
+		//	// Construct Selector class and query by Id for the records
+		//	return newInstance(domainSObjectType).selectSObjectsById(recordIds);
+		//}
 
-		public List<SObject> selectByRelationship(List<SObject> relatedRecords, SObjectField relationshipField){
-			Set<Id> relatedIds = new Set<Id>();
-			for(SObject relatedRecord : relatedRecords){
-				Id relatedId = (Id) relatedRecord.get(relationshipField);
-				if(relatedId!=null){
-					relatedIds.add(relatedId);
-				}
-			}
-			return selectById(relatedIds);
-		}
+		//public List<SObject> selectByRelationship(List<SObject> relatedRecords, SObjectField relationshipField){
+		//	Set<Id> relatedIds = new Set<Id>();
+		//	for(SObject relatedRecord : relatedRecords){
+		//		Id relatedId = (Id) relatedRecord.get(relationshipField);
+		//		if(relatedId!=null){
+		//			relatedIds.add(relatedId);
+		//		}
+		//	}
+		//	return selectById(relatedIds);
+		//}
 	}
 	
 	public class ApplicationException extends Exception { }			
