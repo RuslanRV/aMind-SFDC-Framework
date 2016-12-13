@@ -1,37 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>APTS_Application</members>
-        <members>APTS_ApplicationFactory</members>
-        <members>APTS_BaseFrameworkTest</members>
-        <members>APTS_CartServiceImpl</members>
-        <members>APTS_Categories</members>
-        <members>APTS_CategoriesSelector</members>
-        <members>APTS_CategoriesSelectorTest</members>
-        <members>APTS_CategoriesTest</members>
-        <members>APTS_CategoryServiceImpl</members>
-        <members>APTS_ConfigService</members>
-        <members>APTS_ConfigurationController</members>
-        <members>APTS_ConfigurationControllerTest</members>
-        <members>APTS_ConfigurationDomainHelper</members>
-        <members>APTS_ConfigurationService</members>
-        <members>APTS_ConfigurationServiceTest</members>
-        <members>APTS_ConfigurationServiceTestUtil</members>
-        <members>APTS_Constants</members>
-        <members>APTS_DebugInstrumentation</members>
-        <members>APTS_ICartService</members>
-        <members>APTS_ICategories</members>
-        <members>APTS_ICategoriesSelector</members>
-        <members>APTS_ICategoryService</members>
-        <members>APTS_ILineItemService</members>
-        <members>APTS_ISObjectDomain</members>
-        <members>APTS_ISObjectSelector</members>
-        <members>APTS_IServiceUnitOfWork</members>
-        <members>APTS_LineItemServiceImpl</members>
-        <members>APTS_SObjectDescribe</members>
-        <members>APTS_SObjectDomain</members>
-        <members>APTS_SObjectSelector</members>
-        <members>APTS_ServiceUnitOfWork</members>
+        <members>*</members>
         <name>ApexClass</name>
     </types>
     <types>
