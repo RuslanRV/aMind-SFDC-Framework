@@ -15,24 +15,6 @@ public interface APTS_IServiceUnitOfWork{
 	 **/
 	void registerNew(List<SObject> records);
 	/**
-	 * Register a newly created SObject instance to be inserted when commitWork is called,
-	 *   you may also provide a reference to the parent record instance (should also be registered as new separatly)
-	 *
-	 * @param record A newly created SObject instance to be inserted during commitWork
-	 * @param relatedToParentField A SObjectField reference to the child field that associates the child record with its parent
-	 * @param relatedToParentRecord A SObject instance of the parent record (should also be registered as new separatly)
-	 **/
-	void registerNew(SObject record, Schema.sObjectField relatedToParentField, SObject relatedToParentRecord);
-	/**
-	 * Register a relationship between two records that have yet to be inserted to the database. This information will be
-	 *  used during the commitWork phase to make the references only when related records have been inserted to the database.
-	 *
-	 * @param record An existing or newly created record
-	 * @param relatedToField A SObjectField referene to the lookup field that relates the two records together
-	 * @param relatedTo A SOBject instance (yet to be commited to the database)
-	 */
-	void registerRelationship(SObject record, Schema.sObjectField relatedToField, SObject relatedTo);
-	/**
 	 * Register an existing record to be updated during the commitWork method
 	 *
 	 * @param record An existing record
@@ -45,18 +27,6 @@ public interface APTS_IServiceUnitOfWork{
 	 **/
 	void registerDirty(List<SObject> records);
 	/**
-	 * Register an existing record to be deleted during the commitWork method
-	 *
-	 * @param record An existing record
-	 **/
-	void registerDeleted(SObject record);
-	/**
-	 * Register a list of existing records to be deleted during the commitWork method
-	 *
-	 * @param records A list of existing records
-	 **/
-	void registerDeleted(List<SObject> records);
-	/**
 	 * Takes all the work that has been registered with the UnitOfWork and commits it to the database
 	 **/
 	void commitWork();
@@ -66,10 +36,4 @@ public interface APTS_IServiceUnitOfWork{
 	 * @param work Work to be registered
 	 **/
 	void registerWork(APTS_ServiceUnitOfWork.IDoWork work);
-	/**
-	 * Registers the given email to be sent during the commitWork
-	 *
-	 * @param email Email to be sent
-	 **/	 
-	void registerEmail(Messaging.Email email);
 }
