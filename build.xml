@@ -9,19 +9,19 @@
         serverurl="${sf.serverurl}" 
         runAllTests="false"
         logType="Detail"
-        deployRoot="src"/>
+        deployRoot="${basedir}/src"/>
     </target>
     
-    <target name="deployRunAllTests">
-      <sf:deploy username="${sf.username}" 
-        password="${sf.password}" 
-        serverurl="${sf.serverurl}" 
-        runAllTests="true"
-        logType="Detail"
-        deployRoot="src"/>
-    </target>
-
-    <target name="undeployCode">
+    <target name="deployRunLocalTests">
+		<sf:deploy 
+	        username="${sf.username}" 
+	        password="${sf.password}" 
+	        serverurl="${sf.server}"
+	        testLevel="RunLocalTests" 
+            logType="Detail"
+	        deployRoot="${basedir}/src"/>
+        
+    <target name="undeploy">
       <sf:deploy username="${sf.username}" 
         password="${sf.password}" 
         serverurl="${sf.serverurl}" 
